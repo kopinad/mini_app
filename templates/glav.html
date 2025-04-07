@@ -1,0 +1,274 @@
+{% load static %}
+<html  lang="ru">
+    <head>
+        <!-- Предзагрузка шрифта -->
+        <link rel="preload" href="https://fonts.cdnfonts.com/css/novoposelensky" as="style" onload="this.rel='stylesheet'">
+
+        <noscript>
+            <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/novoposelensky">
+        </noscript>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Дарья Копина</title>
+
+        <link rel="stylesheet" href="{% static 'css/stylenavig.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styleglav.css' %}">
+        <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styletab.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styleslider.css' %}">
+    </head>
+
+    <body>
+    <header>
+        <div class="navbar">
+            <div class="navbar-m">
+                <div class="navbar-m1">
+                    <a href="{% url 'services:home' %}">Обо мне</a>
+                    <a href="{% url 'services:home' %}#uslugi">Услуги</a>
+                    <div class="dropdown">
+                        <div class="dropbtn">Примеры работ
+                            <i class="fa fa-caret-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            {% for category in categories %}
+                                <a href="{% url 'services:works' category.id %}">{{ category.name }}</a>
+                            {% empty %}
+                                <a href="#">Категории не найдены</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <a href="{% url 'services:home' %}#etaps">Этапы работы</a>
+                    <a href="{% url 'services:home' %}#otzivi">Отзывы</a>
+                    <a href="{% url 'services:home' %}#contacts">Контакты</a>
+                </div>
+                <div class="navbar-m1">
+                    <a href="{% url 'user:svyaz' %}">Заполнение формы для записи</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Мобильное меню -->
+        <div class="mobile-navbar">
+            <div class="mobile-header-container">
+                <button class="mobile-menu-btn">☰ Меню</button>
+                <a href="{% url 'user:svyaz' %}" class="record-button">Записаться</a>
+            </div>
+
+            <div class="mobile-menu-content" id="mobileMenu">
+                <a href="{% url 'services:home' %}">Обо мне</a>
+                <a href="#uslugi">Услуги</a>
+                <button class="mobile-dropdown-btn">Примеры работ ▼</button>
+                <div class="mobile-dropdown-content">
+                    {% for category in categories %}
+                        <a href="{% url 'services:works' category.id %}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'services:home' %}#etaps">Этапы работы</a>
+                <a href="{% url 'services:home' %}#otzivi">Отзывы</a>
+                <a href="{% url 'services:home' %}#contacts">Контакты</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="str">
+            <div class="fon">
+                <div class="cont-ya">
+                    <div class="f1-obomne">
+                        <h1>КОПИНА ДАША</h1>
+                        <div class="text-desctop">
+                            <p>Нужны презентации для бизнеса?</p>
+                            <p>Я готова помочь вам с этой задачей</p>
+                            <br>
+                        </div>
+					<div class="contact-btn-desctop"><button type="button" class="btn btn-primary" name="run_script" onclick="window.location.href = 'https://t.me/koppini';">Связаться со мной</button></div>
+                    </div>
+                    <br>
+                    <div class="f1-obomne">
+                        <div class="photo"><img src="{% static 'img/person.png' %}" alt="Даша Копина" loading="lazy"></div>
+                    </div>
+                    <br>
+                    <div class="text-mobile">
+                        <p>Нужны презентации для бизнеса?</p>
+                        <p>Я готова помочь вам с этой задачей</p>
+                    </div>
+                    <br>
+                    <div class="contact-btn-mobile">
+                        <button type="button" class="btn btn-primary" name="run_script" onclick="window.location.href = 'https://t.me/koppini';">Связаться со мной</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <!-- Обо мне -->
+        <h1>Обо мне</h1>
+        <p>Я Даша, и я занимаюсь созданием презентаций</p>
+        <p>для продвижения или создания Вашего бизнеса.</p>
+        <br>
+        <a href="#certificateModal" class="link-arrow"><p><u>Сертификаты о прохождении курсов →</u></p></a>
+        <!-- Модальное окно -->
+        <div id="certificateModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#close" class="close">&times;</a>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{% static 'IMG/sertif.png' %}" alt="Мои сертификаты" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <!-- Почему я? -->
+        <h1>Почему я?</h1>
+        <br>
+        <div class="f1-me">
+            <div class="f1-megroup">
+                <div class="flex-icons"><img src="{% static 'IMG/icons/back-in-time1.png' %}" alt="Дедлайны" loading="lazy"></div>
+                <div class="flex-icons"><p>Соблюдаю все дедлайны</p></div>
+            </div>
+            <br>
+            <div class="br-mobile"><br></div>
+            <div class="f1-megroup">
+                <div class="flex-icons"><img src="{% static 'IMG/icons/feather1.png' %}" alt="Тексты" loading="lazy"></div>
+                <div class="flex-icons"><p>Помогаю создать продающие тексты</p></div>
+            </div>
+            <br>
+            <div class="br-mobile"><br></div>
+            <div class="f1-megroup">
+                <div class="flex-icons"><img src="{% static 'IMG/icons/employee1.png' %}" alt="Опыт" loading="lazy"></div>
+                <div class="flex-icons"><p>Большой опыт в сфере визуализации данных</p></div>
+            </div>
+            <br>
+            <div class="br-mobile"><br></div>
+            <div class="f1-megroup">
+                <div class="flex-icons"><img src="{% static 'IMG/icons/mortarboard1.png' %}" alt="Образование" loading="lazy"></div>
+                <div class="flex-icons"><p>Получила бизнес образование</p></div>
+            </div>
+        </div>
+        <br>
+
+        <!-- Услуги -->
+        <h1><a name="uslugi"></a>Услуги</h1>
+        <div class="accordion">
+            {% for category in categories %}
+            <div class="tab">
+                <input type="checkbox" id="tab{{ category.id }}" class="tab-group">
+                <label for="tab{{ category.id }}" class="tab-title">
+                    <div class="h2">{{ category.name }}</div><span class="tab-arrow">ˇ</span>
+                </label>
+                <section class="tab-content">
+                    <p>от 10 000₽ за проект</p>
+                    <p><a href="{% url 'services:works' category.id %}" class="link-arrow"><u>Пример работ →</u></a></p>
+                </section>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+
+        <!-- Этапы работы -->
+        <h1><a name="etaps"></a>Этапы работы</h1>
+        <div class="working">
+            <div class="workinggroup">
+                <div class="h2">01. Звонок с клиентом</div>
+                <ul>
+                    <li><div class="p2">Знакомство с Вашим проектом</div></li>
+                    <li><div class="p2">Обсуждение плана работы и сроков</div></li>
+                    <li><div class="p2">Утверждение бюджета</div></li>
+                </ul>
+                <br>
+            </div>
+             <div class="workinggroup">
+                <div class="h2">02. Анализ информации</div>
+                <ul>
+                    <li><div class="p2">Изучение Вашей деятельности</div></li>
+                    <li><div class="p2">Поиск наиболее подходящих решений дизайна</div></li>
+                    <li><div class="p2">Предоставление референсов</div></li>
+                    <li><div class="p2">Внесение предоплаты 50%</div></li>
+                </ul>
+                <br>
+            </div>
+            <div class="workinggroup">
+                <div class="h2">03. Процесс работы</div>
+                <ul>
+                    <li><div class="p2">Подбор стиля, шрифта</div></li>
+					<li><div class="p2">Составление или корректировка текста презентации по запросу</div></li>
+					<li><div class="p2">Подготовка и отправка макета будущих слайдов</div></li>
+					<li><div class="p2">Обсуждение с клиентом понравившихся вариантов</div></li>
+					<li><div class="p2">Внесение необходимых корректировок</div></li>
+                </ul>
+                <br>
+            </div>
+            <div class="workinggroup">
+                <div class="h2">04. Сдача проекта</div>
+                <ul>
+                    <li><div class="p2">Отправка клиенту выполненного проекта (в формате .pdf)</div></li>
+					<li><div class="p2">Внесение необходимых корректировок</div></li>
+					<li><div class="p2">Внесение постоплаты</div></li>
+					<li><div class="p2">Отправка финальной версии проекта (в формате .pptx)</div></li>
+                </ul>
+            </div>
+        </div>
+        <br>
+
+        <!-- Отзывы -->
+        <h1><a name="otzivi"></a>Отзывы</h1>
+        <br>
+        <div class="slider-container">
+            <div class="slider">
+                {% for review in reviews %}
+                <img src="{% static review.image_path %}" alt="Отзыв {{ forloop.counter }}" loading="lazy">
+                {% endfor %}
+            </div>
+            <div class="prev-button">&lt;</div>
+            <div class="next-button">&gt;</div>
+        </div>
+        <br><br>
+        </main>
+
+        <footer id="contacts">
+            <div class="flex-container">
+                {% load static %}
+                <div class="flex-item-footer">
+                    <div class="flex-icons-footer"><img src="{% static 'IMG/icons/Telegram.png' %}" alt="Telegram" loading="lazy"></div>
+                    <div class="flex-icons-footer">
+                        <div class="h3">Telegram:</div>
+                        <p>@aaaaaaa</p>
+                    </div>
+                </div>
+                <div class="flex-item-footer">
+                    <div class="flex-icons-footer"><img src="{% static 'IMG/icons/Mobile.png' %}" alt="Mobile" loading="lazy"></div>
+                    <div class="flex-icons-footer">
+                        <div class="h3">Mobile:</div>
+                        <p>8 999 999 99 99</p>
+                    </div>
+                </div>
+                <div class="flex-item-footer">
+                    <div class="flex-icons-footer"><img src="{% static 'IMG/icons/Instagram.png' %}" alt="Instagram" loading="lazy"></div>
+                    <div class="flex-icons-footer">
+                        <div class="h3">Instagram*:</div>
+                        <p>@aaaaaaa</p>
+                    </div>
+                </div>
+                <div class="flex-item-footer">
+                    <div class="flex-icons-footer"><img src="{% static 'IMG/icons/Mail.png' %}" alt="Mail" loading="lazy"></div>
+                    <div class="flex-icons-footer">
+                        <div class="h3">Mail:</div>
+                        <p>aaaaaaaaa@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p1">Instagram* - запрещенная соц. сеть на территории РФ</div>
+        </footer>
+    </body>
+
+    <script src="{% static 'js/menuphone.js' %}"></script>
+    <script src="{% static 'js/modal.js' %}"></script>
+    <script src="{% static 'js/slider.js' %}"></script>
+    <script src="{% static 'js/tab.js' %}"></script>
+</html>

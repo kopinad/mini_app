@@ -1,0 +1,200 @@
+@media screen and (min-width: 769px) {
+    .mobile-navbar {
+        display: none !important;
+    }
+}
+
+/* Показываем обычное меню на десктопах */
+@media screen and (min-width: 769px) {
+    .navbar {
+        display: block !important;
+    }
+}
+
+.navbar{
+	overflow: hidden; /*вехняя панель*/
+	background-color: #323232;
+}
+
+.navbar-m {
+	display: flex;
+	justify-content: space-between;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+/* Стили ссылок верхней нав.панели */
+.navbar a{
+	float: left; /*выравнивание*/
+	text-align: center;
+	padding: 14px 16px;
+	font-size: 16px;
+	font-family: "Montserrat", sans-serif;
+	font-weight: 300;
+	color: white;
+	text-decoration: none;
+}
+
+/* Ссылка выравнивается по правому краю */
+.navbar a.right{
+  float: right;
+}
+
+/* Меняем цвет при наведении мыши */
+.navbar a:hover, .dropdown:hover .dropbtn{
+  color: #D8CAF9;
+  cursor: pointer;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+}
+
+.dropdown .dropbtn {
+	font-size: 16px;
+	border: none;
+	outline: none;
+	color: white;
+	padding: 14px 16px;
+	background-color: #323232;
+	font-family: "Montserrat", sans-serif;
+	font-weight: 300;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #3A3A3A;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	float: none;
+	color: white;
+	padding: 8px 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+
+.dropdown-content a:hover {
+	color: #D8CAF9;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        display: none;
+    }
+
+    .mobile-navbar {
+        display: block;
+        background-color: #323232;
+        position: relative;
+    }
+
+    .mobile-menu-content {
+        display: none;
+        background-color: #3A3A3A;
+    }
+
+    .mobile-menu-content a {
+        padding: 15px 20px;
+        display: block;
+        color: white;
+        text-decoration: none;
+        font-family: "Montserrat", sans-serif;
+        transition: color 0.3s ease;
+    }
+
+    .mobile-dropdown-content a {
+        display: block;
+        padding: 12px 16px;
+        color: white;
+        text-decoration: none;
+        font-family: "Montserrat", sans-serif;
+        transition: color 0.3s ease;
+    }
+
+    .mobile-menu-content a:hover,
+    .mobile-dropdown-content a:hover {
+        color: #D8CAF9;
+    }
+
+    .mobile-dropdown-btn {
+        width: 100%;
+        text-align: left;
+        padding: 12px 16px;
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .mobile-dropdown-btn:hover {
+        color: #D8CAF9;
+    }
+
+    .mobile-dropdown-content {
+        display: none;
+        padding-left: 20px;
+        background-color: #424242;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .mobile-menu-btn {
+        padding: 14px 16px;
+        color: white;
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        transition: color 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Стиль при наведении на кнопку меню */
+    .mobile-menu-btn:hover {
+        color: #D8CAF9; /* Фиолетовый при наведении */
+    }
+
+    /* Стили для кнопки записи */
+    .record-button {
+        padding: 10px 15px;
+        color: white; /* Стандартный цвет - белый */
+        text-decoration: none;
+        border-radius: 4px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        white-space: nowrap;
+        margin-left: 10px;
+        transition: color 0.3s ease; /* Плавное изменение цвета */
+    }
+
+    /* Стиль при наведении на кнопку записи */
+    .record-button:hover {
+        color: #D8CAF9; /* Фиолетовый при наведении */
+    }
+
+    .mobile-header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #323232;
+        padding: 0 10px;
+    }
+}

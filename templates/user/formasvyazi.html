@@ -82,18 +82,21 @@
             <div class="form-control">
                 {{ form.full_name.label_tag }}
                 {{ form.full_name }}
+
             </div>
             <br>
 
             <div class="form-control">
                 {{ form.phone.label_tag }}
                 {{ form.phone }}
+
             </div>
             <br>
 
             <div class="form-control">
                 {{ form.service.label_tag }}
                 {{ form.service }}
+
             </div>
             <br>
 
@@ -170,56 +173,52 @@
         <div class="p1">Instagram* - запрещенная соц. сеть на территории РФ</div>
         </footer>
 
-        {% if submitted %}
-        <script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('serviceForm');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-            document.getElementById('serviceForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const form = e.target;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+
+            try {
                 const formData = new FormData(form);
-                const submitBtn = form.querySelector('button[type="submit"]');
-
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Отправка...';
-
-                fetch("{% url 'user:form_submit' %}", {
+                const response = await fetch("{% url 'user:svyaz' %}", {
                     method: 'POST',
                     body: formData,
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}'
                     }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        document.getElementById('openModal').classList.add('show');
-                        form.reset();
-                    } else {
-                        alert(data.message || 'Ошибка отправки формы');
-                    }
-                })
-                .catch(error => {
-                    alert('Произошла ошибка: ' + error.message);
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Отправить';
                 });
-            });
 
-            function closeModal() {
-                document.getElementById('openModal').classList.remove('show');
-            }
+                const result = await response.json();
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('submitted')) {
+                if (result.status === 'success') {
                     document.getElementById('openModal').classList.add('show');
+                    form.reset();
+                } else if (result.status === 'form_error') {
+                    alert('Пожалуйста, исправьте ошибки в форме.');
+                } else {
+                    alert('Ошибка отправки. Пожалуйста, попробуйте позже.');
                 }
-            });
-        </script>
-        {% endif %}
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при отправке формы.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить';
+            }
+        });
+
+        window.closeModal = function() {
+            document.getElementById('openModal').classList.remove('show');
+        };
+    });
+</script>
+
     </body>
 
     <script src="{% static 'js/menuphone.js' %}"></script>

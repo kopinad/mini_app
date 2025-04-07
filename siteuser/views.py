@@ -1,66 +1,56 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.contrib import messages
 import requests
-from services.models import Category
-from siteuser.forms import SiteUserForm
+from django.views.decorators.csrf import csrf_exempt
+import logging
+from .forms import SiteUserForm
 
-TELEGRAM_TOKEN = "8000922634:AAHg4zWCpme_nQu1aSSKL6mLgF41PFa6aeY"
-TELEGRAM_CHAT_ID = "-4761244038"
+logger = logging.getLogger(__name__)
 
+TELEGRAM_TOKEN = ""
+TELEGRAM_CHAT_ID = ""
+
+@csrf_exempt
+def send_telegram_message(text):
+    try:
+        response = requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+            json={
+                'chat_id': TELEGRAM_CHAT_ID,
+                'text': text,
+                'parse_mode': 'HTML'
+            },
+            timeout=5
+        )
+        return response.status_code == 200
+    except Exception as e:
+        logger.error(f"Telegram error: {str(e)}")
+        return False
 
 def svyaz(request):
-    categories = Category.objects.all()
     if request.method == 'POST':
         form = SiteUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect(request.path + '?submitted=true')
-    else:
-        form = SiteUserForm()
+            cleaned_data = form.cleaned_data
 
-    return render(request, 'user/formasvyazi.html', {
-        'form': form,
-        'categories': categories,
-        'submitted': request.GET.get('submitted') == 'true'
-    })
+            service_name = cleaned_data['service'].name if cleaned_data['service'] else "Не указано"
 
-
-def send_telegram_message(text):
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": text,
-        "parse_mode": "HTML"
-    }
-    try:
-        response = requests.post(url, json=payload)
-        return response.status_code == 200
-    except Exception as e:
-        print(f"Ошибка отправки в Telegram: {e}")
-        return False
-
-
-def form_submit(request):
-    if request.method == "POST":
-        form = SiteUserForm(request.POST)
-        if form.is_valid():
             message = (
                 "<b>Новая заявка!</b>\n"
-                f"<b>Имя:</b> {form.cleaned_data['full_name']}\n"
-                f"<b>Телефон:</b> {form.cleaned_data['phone']}\n"
-                f"<b>Услуга:</b> {form.cleaned_data['service']}\n"
-                "<b>Способ связи:</b> "
+                f"<b>Имя:</b> <code>{cleaned_data['full_name']}</code>\n"
+                f"<b>Телефон:</b> <code>{cleaned_data['phone']}</code>\n"
+                f"<b>Услуга:</b> <code>{service_name}</code>\n"
+                f"<b>Способ связи:</b> "
+                f"{'WhatsApp' if cleaned_data['contact_whatsapp'] else ''}"
+                f"{', ' if cleaned_data['contact_whatsapp'] and cleaned_data['contact_telegram'] else ''}"
+                f"{'Telegram' if cleaned_data['contact_telegram'] else ''}"
             )
-            form.save()
-
-            if form.cleaned_data.get('contact_whatsapp'):
-                message += "WhatsApp "
-            if form.cleaned_data.get('contact_telegram'):
-                message += "Telegram"
 
             if send_telegram_message(message):
                 return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'telegram_error'}, status=500)
+        else:
+            return JsonResponse({'status': 'form_error', 'errors': form.errors}, status=400)
 
-        return JsonResponse({'status': 'error', 'message': 'Ошибка валидации формы'})
-    return JsonResponse({'status': 'invalid', 'message': 'Неверный метод запроса'})
+    form = SiteUserForm()
+    return render(request, 'user/formasvyazi.html', {'form': form})

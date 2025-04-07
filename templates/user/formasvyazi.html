@@ -172,13 +172,6 @@
 
         {% if submitted %}
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('submitted')) {
-                    document.getElementById('openModal').classList.add('show');
-                }
-            });
-
             document.getElementById('serviceForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const form = e.target;
@@ -216,6 +209,13 @@
             function closeModal() {
                 document.getElementById('openModal').classList.remove('show');
             }
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('submitted')) {
+                    document.getElementById('openModal').classList.add('show');
+                }
+            });
         </script>
         {% endif %}
     </body>

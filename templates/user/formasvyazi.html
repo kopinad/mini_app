@@ -3,7 +3,6 @@
     <head>
         <!-- Предзагрузка шрифта -->
         <link rel="preload" href="https://fonts.cdnfonts.com/css/novoposelensky" as="style" onload="this.rel='stylesheet'">
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
         <noscript>
             <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/novoposelensky">
@@ -173,13 +172,7 @@
 
         {% if submitted %}
         <script>
-            const tg = window.Telegram.WebApp;
 
-            tg.MainButton.show();
-            tg.MainButton.setText("Отправить заявку");
-            tg.MainButton.onClick(() => {
-                document.getElementById('serviceForm').requestSubmit();
-            });
 
             document.getElementById('serviceForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -200,17 +193,14 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        const formJson = Object.fromEntries(formData.entries());
-                        tg.sendData(JSON.stringify(formJson));
-
-                        tg.showAlert("Спасибо! Мы свяжемся с вами скоро.");
-                        tg.close();
+                        document.getElementById('openModal').classList.add('show');
+                        form.reset();
                     } else {
-                        tg.showAlert("Ошибка: " + (data.message || 'Попробуйте позже'));
+                        alert(data.message || 'Ошибка отправки формы');
                     }
                 })
                 .catch(error => {
-                    tg.showAlert("Ошибка сети: " + error.message);
+                    alert('Произошла ошибка: ' + error.message);
                 })
                 .finally(() => {
                     submitBtn.disabled = false;

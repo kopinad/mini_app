@@ -3,6 +3,7 @@
     <head>
         <!-- Предзагрузка шрифта -->
         <link rel="preload" href="https://fonts.cdnfonts.com/css/novoposelensky" as="style" onload="this.rel='stylesheet'">
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
         <noscript>
             <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/novoposelensky">
@@ -172,12 +173,7 @@
 
         {% if submitted %}
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('submitted')) {
-                    document.getElementById('openModal').classList.add('show');
-                }
-            });
+
 
             document.getElementById('serviceForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -216,6 +212,13 @@
             function closeModal() {
                 document.getElementById('openModal').classList.remove('show');
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('submitted')) {
+                    document.getElementById('openModal').classList.add('show');
+                }
+            });
         </script>
         {% endif %}
     </body>

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.contrib import messages
 import requests
 from services.models import Category
 from siteuser.forms import SiteUserForm

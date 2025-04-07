@@ -4,6 +4,7 @@ from django.contrib import messages
 import requests
 from services.models import Category
 from siteuser.forms import SiteUserForm
+from django.views.decorators.csrf import csrf_exempt
 
 TELEGRAM_TOKEN = "8000922634:AAHg4zWCpme_nQu1aSSKL6mLgF41PFa6aeY"
 TELEGRAM_CHAT_ID = "-4761244038"
@@ -40,7 +41,7 @@ def send_telegram_message(text):
         print(f"Ошибка отправки в Telegram: {e}")
         return False
 
-
+@csrf_exempt
 def form_submit(request):
     if request.method == "POST":
         form = SiteUserForm(request.POST)

@@ -173,7 +173,13 @@
 
         {% if submitted %}
         <script>
+            const tg = window.Telegram.WebApp;
 
+            tg.MainButton.show();
+            tg.MainButton.setText("Отправить заявку");
+            tg.MainButton.onClick(() => {
+                document.getElementById('serviceForm').requestSubmit();
+            });
 
             document.getElementById('serviceForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -194,14 +200,17 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        document.getElementById('openModal').classList.add('show');
-                        form.reset();
+                        const formJson = Object.fromEntries(formData.entries());
+                        tg.sendData(JSON.stringify(formJson));
+
+                        tg.showAlert("Спасибо! Мы свяжемся с вами скоро.");
+                        tg.close();
                     } else {
-                        alert(data.message || 'Ошибка отправки формы');
+                        tg.showAlert("Ошибка: " + (data.message || 'Попробуйте позже'));
                     }
                 })
                 .catch(error => {
-                    alert('Произошла ошибка: ' + error.message);
+                    tg.showAlert("Ошибка сети: " + error.message);
                 })
                 .finally(() => {
                     submitBtn.disabled = false;

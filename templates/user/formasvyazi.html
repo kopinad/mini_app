@@ -170,21 +170,54 @@
         <div class="p1">Instagram* - запрещенная соц. сеть на территории РФ</div>
         </footer>
 
-    {% if submitted %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('submitted')) {
-                document.getElementById('openModal').classList.add('show');
+        {% if submitted %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('submitted')) {
+                    document.getElementById('openModal').classList.add('show');
+                }
+            });
+
+            document.getElementById('serviceForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const submitBtn = form.querySelector('button[type="submit"]');
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Отправка...';
+
+                fetch("{% url 'user:form_submit' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('openModal').classList.add('show');
+                        form.reset();
+                    } else {
+                        alert(data.message || 'Ошибка отправки формы');
+                    }
+                })
+                .catch(error => {
+                    alert('Произошла ошибка: ' + error.message);
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Отправить';
+                });
+            });
+
+            function closeModal() {
+                document.getElementById('openModal').classList.remove('show');
             }
-        });
-
-        function closeModal() {
-            document.getElementById('openModal').classList.remove('show');
-        }
-    </script>
-    {% endif %}
-
+        </script>
+        {% endif %}
     </body>
 
     <script src="{% static 'js/menuphone.js' %}"></script>

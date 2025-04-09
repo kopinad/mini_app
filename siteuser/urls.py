@@ -1,5 +1,5 @@
 from django.urls import path
-from siteuser.views import svyaz, form_submit
+from siteuser.views import svyaz
 
 app_name = 'user'
 

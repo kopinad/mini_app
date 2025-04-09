@@ -1,6 +1,6 @@
 from django import forms
 from .models import SiteUser
-from services.models import Category  # Добавьте этот импорт
+from services.models import Category
 
 
 class SiteUserForm(forms.ModelForm):

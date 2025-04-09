@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 TELEGRAM_TOKEN = ""
 TELEGRAM_CHAT_ID = ""
 
+
 @csrf_exempt
 def send_telegram_message(text):
     try:
@@ -26,6 +27,7 @@ def send_telegram_message(text):
     except Exception as e:
         logger.error(f"Telegram error: {str(e)}")
         return False
+
 
 def svyaz(request):
     if request.method == 'POST':
